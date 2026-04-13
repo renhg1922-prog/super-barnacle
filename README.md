@@ -97,6 +97,21 @@ powershell -ExecutionPolicy Bypass -File .\package_release.ps1
 - `uninstall.ps1`
 - `README.md` 最终用户说明
 
+## 自动发版
+
+仓库内置了 GitHub Actions 自动发版流程：
+
+1. 先把代码推到 `main`
+2. 创建并推送版本标签，例如 `v1.0.0`
+3. GitHub Actions 会在 Windows 环境自动构建
+4. 自动生成 GitHub Release，并附带 `DesktopFloatingWindow_portable.zip`
+
+本地也可以继续手动执行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\package_release.ps1
+```
+
 ## GitHub 发布建议
 
 推荐把 GitHub 仓库和最终给用户的发布包分开处理：
@@ -104,8 +119,8 @@ powershell -ExecutionPolicy Bypass -File .\package_release.ps1
 1. 仓库只提交源码、脚本和文档
 2. 不提交 `dist/`、`build/`、`relocation_check/` 等本地产物
 3. 每次发版前运行 `build.ps1`
-4. 运行 `package_release.ps1` 生成可上传的发布包
-5. GitHub Release 直接上传 `release\DesktopFloatingWindow_portable.zip`
+4. 运行 `package_release.ps1` 生成可上传的发布包，或直接推送版本 tag 触发自动发版
+5. GitHub Release 中的最终资产是 `DesktopFloatingWindow_portable.zip`
 
 最终用户解压后只需要运行 `install.ps1`，桌面上只会出现快捷方式。
 
