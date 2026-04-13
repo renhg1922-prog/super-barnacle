@@ -1,0 +1,12 @@
+__pycache__/
+build/
+dist/
+relocation_check/
+*.pyc
+DesktopFloatingWindow.spec
+floating_window_settings.json
+portable_runtime_report.json
+DesktopFloatingWindow_DesktopCheck_*/
+.venv/
+release/
+*.zip
