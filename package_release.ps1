@@ -1,5 +1,6 @@
 param(
-    [switch]$SkipBuild
+    [switch]$SkipBuild,
+    [switch]$SkipUiSmokeTest
 )
 
 $ErrorActionPreference = "Stop"
@@ -69,7 +70,7 @@ function Compress-WithRetry {
 }
 
 if (-not $SkipBuild) {
-    & (Join-Path $scriptRoot "build.ps1")
+    & (Join-Path $scriptRoot "build.ps1") -SkipUiSmokeTest:$SkipUiSmokeTest
 }
 
 if (-not (Test-Path (Join-Path $distAppDir "$appName.exe"))) {

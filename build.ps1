@@ -1,3 +1,7 @@
+param(
+    [switch]$SkipUiSmokeTest
+)
+
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -71,9 +75,11 @@ try {
         throw "Smoke test did not create the runtime report: $reportPath"
     }
 
-    $uiSmoke = Start-Process -FilePath $exePath -ArgumentList '--ui-smoke-test' -PassThru -Wait
-    if ($uiSmoke.ExitCode -ne 0) {
-        throw "UI smoke test failed with exit code $($uiSmoke.ExitCode)"
+    if (-not $SkipUiSmokeTest) {
+        $uiSmoke = Start-Process -FilePath $exePath -ArgumentList '--ui-smoke-test' -PassThru -Wait
+        if ($uiSmoke.ExitCode -ne 0) {
+            throw "UI smoke test failed with exit code $($uiSmoke.ExitCode)"
+        }
     }
 
     $installScript = Join-Path $projectRoot "install.ps1"
